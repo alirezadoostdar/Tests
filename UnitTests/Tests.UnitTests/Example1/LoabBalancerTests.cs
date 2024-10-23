@@ -46,17 +46,26 @@ public class LoabBalancerTests
 
     }
 
-    [Fact]
-    public void GetConnectionStringByPredicateId_ShouldReturnCorrectConnectionString()
+    [Theory]
+    [InlineData('a', "conn1")]
+    [InlineData('b', "conn2")]
+    [InlineData('c', "conn3")]
+    public void GetConnectionStringByPredicateId_ShouldReturnCorrectConnectionString(char act,string expected)
     {
         //act
-        var conn1 = _loadBalancer.GetConnectionStringByPredicateId('a');
-        var conn2 = _loadBalancer.GetConnectionStringByPredicateId('b');
-        var conn3 = _loadBalancer.GetConnectionStringByPredicateId('c');
+        var conn1 = _loadBalancer.GetConnectionStringByPredicateId(act);
 
         //assert
-        conn1.Should().Be("conn1");
-        conn2.Should().Be("conn2");
-        conn3.Should().Be("conn3");
+        conn1.Should().Be(expected);
+    }
+
+    [Fact]
+    public void GetConnectionStringByPredicateId_ShouldThrowExceptionInMaxIndex()
+    {
+        //act
+        var connFunc = () => _loadBalancer.GetConnectionStringByPredicateId('d');
+
+        //assert
+        connFunc.Should().Throw<IndexOutOfRangeException>();
     }
 }
