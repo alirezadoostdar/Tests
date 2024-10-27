@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tests.Src.UnitTests.Dependencies.DependencyRelationship;
 
-public class UserAuthentication
+public class Search
 {
-    public bool IsAuthenticated { get; set; }
-    public void Login(string username, string password)
-        =>IsAuthenticated = true;
+    public string SearchItem(string query)
+        => "iphone";
 }

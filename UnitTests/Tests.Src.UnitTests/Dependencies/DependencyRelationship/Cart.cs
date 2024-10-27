@@ -8,20 +8,32 @@ namespace Tests.Src.UnitTests.Dependencies.DependencyRelationship;
 
 public class Cart
 {
-    private UserAuthentication UserAuthentication;
-    public Cart(UserAuthentication userAuthentication)
-    {
-        UserAuthentication = userAuthentication;
-    }
 
-    public bool AddItemToCart(string item)
+    private readonly List<CartItem> Items = [];
+
+
+    public bool AddItemToCart(CartItem item)
     {
-        if (!UserAuthentication.IsAuthenticated)
-        {
-            throw new InvalidOperationException("User must be logged in to the add item to the cart!");
-        }
+
+        Items.Add(item);
 
         //your logic
         return true;
     }
+
+    public decimal CalculateTotal()
+    {
+        decimal total = 0m;
+        foreach (var item in Items)
+        {
+            total += item.Amount;   
+        }
+        return total;
+    }
+}
+
+public class CartItem
+{
+    public string Title { get; set; }
+    public decimal Amount { get; set; }
 }
