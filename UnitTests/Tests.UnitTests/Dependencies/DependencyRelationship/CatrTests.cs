@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.Src.UnitTests.Dependencies;
 using Tests.Src.UnitTests.Dependencies.DependencyRelationship;
 
 namespace Tests.UnitTests.Dependencies.DependencyRelationship;
@@ -51,5 +52,19 @@ public class CatrTests
         //assert
         result.Should().Be(6);
         
+    }
+
+    [Fact]
+    public void Receipt_ShouldGenerateCorrectly()
+    {
+        //arrange
+        var goods = new List<Good>();
+        goods.Add(new Good { Name = "a", Amount = 5m });
+        goods.Add(new Good { Name = "b", Amount = 2m });
+        PaymentMethod payment = new CreditCartPayment();
+        //act
+        var receipt = new Receipt(goods, payment);
+        //assert
+        receipt.GenerateReceipt().Length.Should().BeGreaterThan(1);
     }
 }
